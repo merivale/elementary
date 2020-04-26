@@ -5,6 +5,7 @@ import { Response } from './response.ts'
 
 export class App {
   routes: Routes = {}
+  env: 'dev'|'prod' = 'prod'
 
   errorHandler: ErrorHandler = function (error: Error|HttpError): Response {
     const response = new Response()
@@ -30,6 +31,9 @@ export class App {
       }
       return await handler(new Request(serverRequest))
     } catch (error) {
+      if (this.env === 'dev') {
+        console.error(error)
+      }
       if (error instanceof HttpError === false) {
         error.status = 500
       }

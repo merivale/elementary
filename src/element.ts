@@ -10,14 +10,14 @@ export class Element {
     this.children = []
     this.inner = ''
 
-    Object.keys(options).forEach((key) => {
+    for (const key of Object.keys(options)) {
       switch (key) {
         case 'css':
           if (typeof options.css === 'object') {
             this.attr.style = ''
-            Object.keys(options.css).forEach((cssKey) => {
+            for (const cssKey of Object.keys(options.css)) {
               this.attr.style += `${cssKey}:${options.css[cssKey]};`
-            })
+            }
           }
           break
 
@@ -37,7 +37,7 @@ export class Element {
             this.attr[key] = options[key]
           }
       }
-    })
+    }
   }
 
   get openingTag (): string {
@@ -46,11 +46,11 @@ export class Element {
       result += '<!doctype html>'
     }
     result += `<${this.tagName}`
-    Object.keys(this.attr).forEach((name) => {
+    for (const name of Object.keys(this.attr)) {
       result += (this.attr[name] === true)
         ? ` ${name}`
         : ` ${name}="${this.attr[name].toString().replace(/"/g, '\'').replace(/\n/g, '').trim()}"`
-    })
+    }
     result += '>'
     return result
   }
