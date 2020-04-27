@@ -18,7 +18,7 @@ export class App {
     const server = serve({ port })
     console.log(`Application is listening on port ${port}...`)
     for await (const serverRequest of server) {
-      serverRequest.respond(await this.handle(serverRequest));
+      serverRequest.respond(await this.handle(serverRequest)).catch(() => {})
     }
   }
 
