@@ -12,7 +12,10 @@ export class Request {
     const [path, query] = serverRequest.url.split('?')
     this.serverRequest = serverRequest
     this.method = serverRequest.method as HttpMethod
-    this.path = path
+    this.path = (path[0] === '/') ? path : `/${path}` // enforce leading slash
+    if (this.path.length > 1 && this.path[this.path.length - 1] === '/') {
+      this.path = this.path.slice(0, -1) // remove trailing slash
+    }
     this.query = query
     this.searchParams = new URLSearchParams(query)
     this.body = { type: BodyType.None }

@@ -24,12 +24,13 @@ export class App {
 
   async handle (serverRequest: ServerRequest): Promise<Response> {
     try {
-      const handler = this.find(serverRequest.method, serverRequest.url)
+      const request = new Request(serverRequest)
+      const handler = this.find(request)
       if (handler === null) {
         const error = new HttpError(Status.NotFound, 'Page not found.')
         return this.errorHandler(error)
       }
-      return await handler(new Request(serverRequest))
+      return await handler(request)
     } catch (error) {
       if (this.env === 'dev') {
         console.error(error)
@@ -53,12 +54,11 @@ export class App {
     this.errorHandler = errorHandler
   }
 
-  find (method: string, url: string): Handler|null {
-    if (url[0] !== '/') url = `/${url}`
-    if (url.length > 1 && url[url.length - 1] === '/') url = url.slice(0, -1)
-
-    for (const route of this.routes[method]) {
-      if (url.match(route.pattern)) return route.handler
+  find (request: Request): Handler|null {
+    for (const route of this.routes[request.method]) {
+      if (request.path.match(route.pattern)) {
+        return route.handler
+      }
     }
 
     return null
