@@ -5,7 +5,7 @@ Elementary is a basic (nowhere near complete) implementation of the HTMLElement 
 ## Usage
 
 ```ts
-import { Element } from 'https://raw.githubusercontent.com/merivale/elementary/v0.3.0/mod.ts'
+import { Element } from 'https://raw.githubusercontent.com/merivale/elementary/v0.4.0/mod.ts'
 
 const div = new Element('div', { children: [
   new Element('h1', { className: 'title', innerHTML: 'Title' }),
