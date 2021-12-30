@@ -1,2 +1,2 @@
 export * from './element.ts'
-export * from './tags.ts'
+export * from './tagname.ts'
